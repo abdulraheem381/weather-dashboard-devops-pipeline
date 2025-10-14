@@ -1,26 +1,24 @@
-FROM node:18-alpine AS builder
+# Step 1: Build React app
+FROM node:18-alpine AS build
 
 WORKDIR /app
-
-COPY package.json yarn.lock ./
-
+COPY package*.json yarn.lock ./
 RUN yarn install
-
 COPY . .
+
+ENV NODE_OPTIONS=--openssl-legacy-provider
 
 RUN yarn build
 
-# ---------- Stage 2: Serve App with Nginx ----------
+# Step 2: Serve with Nginx
 FROM nginx:alpine
 
-# Copy build output from previous stage
+# Copy build files to nginx html directory
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Expose port 80 (default Nginx port)
+# Copy custom nginx config
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
 
-# Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
-
-
-
