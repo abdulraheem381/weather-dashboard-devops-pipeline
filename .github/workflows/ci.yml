@@ -19,6 +19,8 @@ jobs:
        run: yarn test --watchAll=false
      - name: Build Project 
        run : yarn build
+       env:
+        NODE_OPTIONS: --openssl-legacy-provider
      - name: Setup Docker
        uses: docker/setup-buildx-action@v3.11.1
      - name: Login to docker hub
