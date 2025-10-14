@@ -8,6 +8,9 @@ COPY . .
 
 ENV NODE_OPTIONS=--openssl-legacy-provider
 
+ARG REACT_APP_OPEN_WEATHER_KEY
+ENV REACT_APP_OPEN_WEATHER_KEY=$REACT_APP_OPEN_WEATHER_KEY
+
 RUN yarn build
 
 # Step 2: Serve with Nginx
