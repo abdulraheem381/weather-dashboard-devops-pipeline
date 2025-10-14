@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   weather-app:
-    image: abdulraheem381/weatherapp-cicd:v1
+    build: .
     ports:
       - "8080:80"
     environment:
