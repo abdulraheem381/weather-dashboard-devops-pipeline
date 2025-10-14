@@ -35,6 +35,8 @@ jobs:
          context: .
          push: true
          tags: ${{ secrets.DOCKER_USERNAME }}/weather-app-cicd:latest
+         build-args: |
+          REACT_APP_OPEN_WEATHER_KEY=${{ secrets.REACT_APP_OPEN_WEATHER_KEY }}
       
        
     
