@@ -115,7 +115,6 @@ resource "aws_instance" "main" {
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.public-subnet.id
   associate_public_ip_address = true
-  availability_zone           = "ap-south-1c"
   vpc_security_group_ids      = [aws_security_group.vpc-sg.id]
 
 
