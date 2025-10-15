@@ -1,154 +1,131 @@
-# 🌦️ Weather Dashboard — Full DevOps Pipeline Project
+# 🌦️ Weather Dashboard — Full DevOps Automation Project
 
-This project takes a simple **React Weather Dashboard** and transforms it into a **production-ready, cloud-deployed application** through a full DevOps pipeline.
+This project turns a simple **React Weather App** into a **fully automated cloud-deployed system** using Docker, Terraform, and GitHub Actions — representing a real-world **CI/CD + IaC DevOps pipeline**.
 
-It demonstrates my end-to-end understanding of:
-- **Containerization (Docker)**
-- **Orchestration (Docker Compose)**
-- **Continuous Integration & Deployment (GitHub Actions)**
-- **Cloud Deployment (AWS)**
-- **Monitoring & Scalability**
+It covers everything from **source code to live cloud deployment**, automatically provisioning infrastructure and running the containerized app on AWS.
 
 ---
 
-## 🧭 Project Overview
+## 🚀 Project Highlights
 
-| Stage | Description | Tools |
-|--------|--------------|-------|
-| 🐳 **1. Dockerization** | Containerized the React app with Nginx for production | Docker, Nginx |
-| ⚙️ **2. Orchestration** | Used Docker Compose for managing multiple containers | Docker Compose, YAML |
-| 🚀 **3. CI/CD Pipeline** | Automated build, test, and deploy process | GitHub Actions |
-| ☁️ **4. Cloud Deployment** | Deployed container to AWS (EC2/ECS) | AWS, Docker Hub |
-| 📊 **5. Monitoring (Optional)** | Added observability for real-time performance tracking | Prometheus, Grafana |
+| Stage                          | Description                                           | Tools                 |
+| ------------------------------ | ----------------------------------------------------- | --------------------- |
+| 🐳 **Containerization**        | Dockerized the React Weather App for production       | Docker                |
+| ⚙️ **Orchestration**           | Multi-container setup with reverse proxy              | Docker Compose, Nginx |
+| 🔁 **CI/CD Pipeline**          | Automated build → test → deploy using GitHub Actions  | GitHub Actions        |
+| ☁️ **Cloud Infrastructure**    | Automated AWS provisioning via Terraform              | Terraform, AWS        |
+| 🏗️ **Infrastructure as Code** | VPC, Subnets, Route Tables, IGW, EC2, Security Groups | Terraform             |
+| 🔒 **Secrets Management**      | Secured API keys & credentials using GitHub Secrets   | GitHub Secrets        |
+| 📦 **Artifact Management**     | Built and pushed Docker images to Docker Hub          | Docker Hub            |
 
 ---
 
 ## 🧰 Tech Stack
-- **Frontend:** React (Create React App)
-- **Containerization:** Docker
-- **Orchestration:** Docker Compose
-- **CI/CD:** GitHub Actions
-- **Cloud:** AWS (EC2 or ECS)
-- **Monitoring:** Prometheus + Grafana *(optional step)*
+
+* **Frontend:** React (Create React App)
+* **Web Server:** Nginx
+* **Containerization:** Docker
+* **Orchestration:** Docker Compose
+* **CI/CD:** GitHub Actions
+* **IaC:** Terraform
+* **Cloud Provider:** AWS (EC2, VPC, S3 backend)
+* **State Management:** Terraform Remote State (S3)
 
 ---
 
-## 🏗️ Local Development
+## ⚙️ Complete Workflow Overview
 
-### 1️⃣ Clone Repository
-```bash
-git clone https://github.com/<your-username>/weather-dashboard-devops-pipeline.git
-cd weather-dashboard-devops-pipeline
-````
+### 🧩 CI Stage
 
-### 2️⃣ Install Dependencies
+1. Checkout code
+2. Setup Node environment
+3. Install dependencies
+4. Lint + test code
+5. Build production app
+6. Setup Docker
+7. Build + push image to Docker Hub
 
-```bash
-yarn install
-```
+✅ **Trigger:** Push or PR to `main` branch
 
-### 3️⃣ Run Locally (Dev Mode)
+### ☁️ CD Stage
 
-```bash
-yarn start
-```
+1. Triggered automatically after CI success
+2. Configure AWS credentials (from secrets)
+3. Initialize Terraform backend (S3)
+4. Plan & Apply infrastructure
 
-Visit [http://localhost:3000](http://localhost:3000)
-
----
-
-## 🐳 Docker Setup
-
-### Build Docker Image
-
-```bash
-docker build -t weather-dashboard .
-```
-
-### Run Container
-
-```bash
-docker run -d -p 8080:80 weather-dashboard
-```
-
-Visit [http://localhost:8080](http://localhost:8080)
+   * Creates **VPC**, **2 subnets (public/private)**, **IGW**, **Route Table**, and **Security Group**
+   * Launches **EC2 instance** in the public subnet
+5. Installs Docker on EC2
+6. Pulls the latest image from **Docker Hub**
+7. Runs the containerized weather app
+8. Keeps instance live for ~2–3 minutes → then automatically destroyed (ephemeral infra)
 
 ---
 
-## ⚙️ Docker Compose Setup
-
-For multi-container setup (frontend + reverse proxy):
-
-```bash
-docker-compose up --build
-```
-
----
-
-## 🚀 CI/CD Pipeline (GitHub Actions)
-
-Your `.github/workflows/ci.yml` will:
-
-1. Run tests and lint checks
-2. Build production code
-3. Build Docker image
-4. Push image to **Docker Hub**
-5. SSH or deploy automatically to **AWS EC2/ECS**
-
----
-
-## ☁️ Cloud Deployment
-
-* **Option 1:** Deploy Docker image to **AWS EC2** (via SSH and GitHub Actions)
-* **Option 2:** Push Docker image to **ECR** and deploy with **ECS Fargate**
-* Add **custom domain** and **HTTPS** using Cloudflare or Route 53 + ACM.
-
----
-
-## 📊 (Optional) Monitoring Setup
-
-After deployment, add:
-
-* **Prometheus** → collects metrics
-* **Grafana** → visualizes dashboards
-* **Alerts** → Slack/Email notifications for downtime
-
----
-
-## 📦 Folder Structure
+## 🏗️ Folder Structure
 
 ```
-weather-dashboard-devops-pipeline/
+weather-dashboard-devops/
 │
+├── .github/workflows/          # CI/CD pipelines
+│   ├── cicd.yml
+│
+├── nginx/                      # Reverse proxy config
+├── src/                        # React app source code
 ├── public/
-├── src/
-├── .github/workflows/ci.yml
+├── terraform/                  # Terraform IaC configs
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│
+├── Dockerfile                  # Docker build instructions
+├── docker-compose.yml          # Orchestration config
 ├── .dockerignore
-├── Dockerfile
-├── docker-compose.yml
 ├── package.json
-└── README.md
+├── README.md
+└── yarn.lock
 ```
 
 ---
 
-## 🧩 Project Roadmap
+## 📸 Screenshots & Proof of Work
 
-* [x] Dockerize the app
-* [x] Add Docker Compose
-* [x] Configure GitHub Actions CI/CD
-* [x] Deploy to AWS Cloud
-* [ ] Add Monitoring and Alerts
+1️⃣ **Docker Hub:** Image successfully pushed to repository
+<img width="1633" height="534" alt="Screenshot 2025-10-15 120438" src="https://github.com/user-attachments/assets/7d59776f-f7a3-4de1-bbdb-3f639c45a3a4" />
+
+2️⃣ **AWS EC2:** Instance running and app container deployed
+<img width="1609" height="341" alt="Screenshot 2025-10-15 122354" src="https://github.com/user-attachments/assets/88d7039d-5467-4979-98d0-65b4dc821025" />
+
+3️⃣ **VPC Resource Map:** Visual of Terraform-created networking setup
+<img width="1920" height="595" alt="Screenshot 2025-10-15 122452" src="https://github.com/user-attachments/assets/518c2880-a95f-4de8-b7e7-0fbb006c2c92" />
+
+4️⃣ **Browser:** Weather App accessible on port 80
+<img width="1919" height="1028" alt="Screenshot 2025-10-15 122557" src="https://github.com/user-attachments/assets/2c91b84e-827e-4313-a1a7-117d86cbca87" />
+
+5️⃣ **Terraform State in S3:** Remote backend storage proof
+<img width="1919" height="783" alt="Screenshot 2025-10-15 123316" src="https://github.com/user-attachments/assets/f03b4864-dac5-4744-bcc2-7f9b18bb7db3" />
+
+6️⃣ **GitHub Actions:** Successful CI/CD workflow run
+<img width="1916" height="728" alt="Screenshot 2025-10-15 123425" src="https://github.com/user-attachments/assets/c9967d50-a35d-4bae-bbdd-b29c8a97be03" />
+
+7️⃣ **GitHub Secrets:** Environment variables setup 
+<img width="1023" height="443" alt="image" src="https://github.com/user-attachments/assets/9b722aea-3058-4db3-b07a-10d9680bf407" />
+
 
 ---
 
-## 🧠 About This Project
+## 🧠 Key Learnings
 
-This is part of my **DevOps engineering journey** — going from code to cloud using real-world tools and best practices.
-Follow my progress on **X (Twitter)** → [@Abdulraheem183](https://x.com/Abdulraheem183)
+* Built a **complete DevOps pipeline** from scratch
+* Automated cloud infra provisioning using **Terraform + AWS**
+* Mastered **CI/CD with dependent jobs** (CD waits for CI)
+* Integrated **Docker**, **AWS**, and **Terraform** seamlessly
+* Understood **ephemeral infra** and **remote state management**
 
 ---
 
 ## 📜 License
 
 MIT License © 2025 Abdul Raheem
+
