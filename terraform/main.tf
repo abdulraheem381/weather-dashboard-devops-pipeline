@@ -43,6 +43,7 @@ resource "aws_subnet" "public-subnet" {
 
   vpc_id     = aws_vpc.main.id
   cidr_block = "10.0.1.0/24"
+  availability_zone = "ap-south-1a"
 
   tags = {
     Name = "public-subnet"
@@ -116,6 +117,7 @@ resource "aws_instance" "main" {
   subnet_id                   = aws_subnet.public-subnet.id
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.vpc-sg.id]
+  availability_zone = "ap-south-1a"
 
 
   root_block_device {
