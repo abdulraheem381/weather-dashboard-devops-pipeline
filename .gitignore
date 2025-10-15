@@ -130,3 +130,5 @@ modules.xml
 
 # End of https://www.gitignore.io/api/react,webstorm+all
 /.env
+/terraform/.terraform
+/terraform/.terraform.lock.hcl
