@@ -38,6 +38,7 @@ jobs:
          build-args: |
           REACT_APP_OPEN_WEATHER_KEY=${{ secrets.REACT_APP_OPEN_WEATHER_KEY }}
   cd:
+    needs: ci
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repo
