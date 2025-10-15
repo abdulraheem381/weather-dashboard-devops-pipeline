@@ -47,10 +47,13 @@ jobs:
       uses: hashicorp/setup-terraform@v2.0.3
     - name: Terraform init
       run: terraform init
+      working-directory: ./terraform
     - name: terraform plan
       run: terraform plan -out=tfplan
+      working-directory: ./terraform
     - name: Terraform Apply
       run: terraform apply -auto-approve tfplan
+      working-directory: ./terraform
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -59,6 +62,7 @@ jobs:
 
     - name: Terraform Destroy
       run: terraform destroy -auto-approve tfplan
+      working-directory: ./terraform
       
        
     
