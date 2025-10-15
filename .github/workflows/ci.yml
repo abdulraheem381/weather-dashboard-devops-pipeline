@@ -37,6 +37,27 @@ jobs:
          tags: ${{ secrets.DOCKER_USERNAME }}/weather-app-cicd:latest
          build-args: |
           REACT_APP_OPEN_WEATHER_KEY=${{ secrets.REACT_APP_OPEN_WEATHER_KEY }}
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v4
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2.0.3
+    - name: Terraform init
+      run: terraform init
+    - name: terraform plan
+      run: terraform plan -out=tfplan
+    - name: Terraform Apply
+      run: terraform apply -auto-approve tfplan
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: Wait for 3 minutes
+      run: sleep 180
+
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve tfplan
       
        
     
