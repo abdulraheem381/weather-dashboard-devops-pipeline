@@ -9,7 +9,7 @@ resource "aws_instance" "main" {
   subnet_id                   = aws_subnet.public-subnet.id
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.vpc-sg.id]
-  availability_zone = "ap-south-1a"
+  availability_zone           = "ap-south-1a"
 
 
   root_block_device {
