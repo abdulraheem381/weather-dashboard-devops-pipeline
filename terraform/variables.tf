@@ -13,17 +13,18 @@ variable "instance_type" {
 
 }
 
-variable "volume_size" {
 
-  type    = number
-  default = 20
+variable "root_volume" {
 
-}
+  type = object({
+    v_size = number
+    v_type = string
+  })
 
-variable "volume_type" {
-
-  type    = string
-  default = "gp2"
+  default = {
+    v_size = 30
+    v_type = "gp2"
+  }
 
 }
 
@@ -31,5 +32,15 @@ variable "availability_zone" {
 
   type    = string
   default = "ap-south-1"
+
+}
+
+variable "additional_tags" {
+
+  type = map(string)
+  default = {
+    "ENV"     = "PROD"
+    "Project" = "Weatherapp"
+  }
 
 }
