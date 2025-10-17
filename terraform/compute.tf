@@ -14,8 +14,8 @@ resource "aws_instance" "main" {
 
   root_block_device {
 
-    volume_size = var.volume_size
-    volume_type = var.volume_type
+    volume_size = var.root_volume.v_size
+    volume_type = var.root_volume.v_type
   }
 
   user_data = <<-EOF
@@ -26,6 +26,11 @@ resource "aws_instance" "main" {
     docker pull abdulraheem381/weather-app-cicd:latest
     docker run -d -p 80:80 abdulraheem381/weather-app-cicd:latest
   EOF
+
+  tags = merge(var.additional_tags, {
+
+    Name = "EC2-weather-instance"
+  })
 
 
 }
